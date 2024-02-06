@@ -1,1 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Time Interval Table</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+Enter start time (HH:MM): <input type="time" id="startTime">
+<button onclick="generateTable()">Generate Table</button>
+<div id="tableContainer"></div>
+
+<script>
+function generateTable() {
+    const startTime = document.getElementById("startTime").value;
+    if (!startTime) {
+        alert("Please enter a start time.");
+        return;
+    }
+
+    const tableContainer = document.getElementById("tableContainer");
+    tableContainer.innerHTML = ""; // Clear previous table
+
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
+
+    // Create header row
+    const headerRow = document.createElement("tr");
+    const timeHeader = document.createElement("th");
+    timeHeader.textContent = "Time";
+    headerRow.appendChild(timeHeader);
+    thead.appendChild(headerRow);
+
+    table.appendChild(thead);
+
+    let currentTime = new Date();
+    currentTime.setHours(parseInt(startTime.split(":")[0]), parseInt(startTime.split(":")[1]), 0);
+
+	let iCounter = 0;
+
+    // Assuming an 8-hour duration for demonstration
+    const endTime = new Date(currentTime.getTime() + 8 * 60 * 60 * 1000);
+	const row = document.createElement("tr");
+    while (currentTime < endTime) {
+        //const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.textContent = currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        row.appendChild(cell);
+        
+
+        // Increment by 15 minutes
+        currentTime = new Date(currentTime.getTime() + 15 * 60 * 1000);
+		iCounter++;
+    }
+	tbody.appendChild(row);
+
+//Add comment or checkbox row
+const row2 = document.createElement("tr");
+tbody.appendChild(row2);
+let i = 0;
+    while (i < iCounter) {
+        const cell2 = document.createElement("td");
+        cell2.textContent = "test";
+        row2.appendChild(cell2);
+        
+		i++;
+    }
+tbody.appendChild(row2);
+
+    table.appendChild(tbody);
+    tableContainer.appendChild(table);
+}
+</script>
+
+</body>
+</html>
 
