@@ -1,23 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Time Interval Table</title>
+    <title>Timer App</title>
     <style>
+        body{
+            font-family: arial;
+            font-size: 1.0em;
+        }
+        table{
+            margin-bottom: 10px;
+        }
         table, th, td {
             border: 1px solid black;
             border-collapse: collapse;
+            font-size: 11px;
         }
         th, td {
             padding: 5px;
             text-align: left;
         }
+        #tableContainer{
+            padding-top: 10px;
+        }
+        button{
+            padding: 5px;
+        }
+        input{
+            font-size: 1.2em;
+            width: 100px;
+        }
+        #header{
+            text-align: left;
+        }
+        h1{
+            font-size:1.2em;
+        }
+        h2{
+            font-size:1.1em;
+        }
+
     </style>
 </head>
+<script>
+    function printCurrentPage(){
+        window.print();
+    }
+</script>
 <body>
+    <!--// #Begin Header //-->
+    <div style="position: absolute;top:10px;left:80%;">
+        {Logo}
+    </div>
+    <div id="header">
+        <h1>
+            Timee Intervals
+        </h1>
+        <div style="margin-bottom:10px;font-size:0.8em;">
+            {Text Here}
+        </div>
+    </div>
 
-Enter start time (HH:MM): <input type="time" id="startTime">
-<button onclick="generateTable()">Generate Table</button>
-<div id="tableContainer"></div>
+    <div>
+        <button style="margin-right:550px;margin-bottom:15px;" onclick="generateTable()">Calculate Time</button>
+        <button onclick="printCurrentPage()">Print this Page</button>
+    </div>
+
+<div style="margin-bottom:10px;">
+    Enter start time (HH:MM): <input style="width:115px;padding-right:15px;" type="time" id="startTime">
+    Leaving ED <input style="margin-right:15px;" type="text" id="Leaving_ED">
+    ICU Arrival <input type="text" id="ICU_Arrival">
+</div>
+<!--// #End Header //-->
+
+
+<!--// #BeginTable 1: q 15 Min X2 h  //-->
+
+<div id="tableContainer1"></div>
 
 <script>
 function generateTable() {
@@ -27,18 +85,18 @@ function generateTable() {
         return;
     }
 
-    const tableContainer = document.getElementById("tableContainer");
-    tableContainer.innerHTML = ""; // Clear previous table
+    const tableContainer1 = document.getElementById("tableContainer1");
+    tableContainer1.innerHTML = ""; // Clear previous table
 
     const table = document.createElement("table");
     const thead = document.createElement("thead");
     const tbody = document.createElement("tbody");
 
-    // Create header row
+    // Create header row for q 15 Min X2 h (Contains 4 child rows for VS, NIHSS, Pulse (ICU Only), Site Check (IUC Only))
     const headerRow = document.createElement("tr");
-    const timeHeader = document.createElement("th");
-    timeHeader.textContent = "Time";
-    headerRow.appendChild(timeHeader);
+    const timeHeader1 = document.createElement("th");
+    timeHeader1.textContent = "q 15 Min X2 h";
+    //headerRow.appendChild(timeHeader1);
     thead.appendChild(headerRow);
 
     table.appendChild(thead);
@@ -48,9 +106,147 @@ function generateTable() {
 
 	let iCounter = 0;
 
-    // Assuming an 8-hour duration for demonstration
-    const endTime = new Date(currentTime.getTime() + 8 * 60 * 60 * 1000);
+    // Assuming an 2-hour duration
+    const endTime = new Date(currentTime.getTime() + 2.25 * 60 * 60 * 1000);
 	const row = document.createElement("tr");
+    const vsColumnHeaderCell = document.createElement("td");
+    vsColumnHeaderCell.textContent = "q 15 Min X2 h";
+    row.appendChild(vsColumnHeaderCell);
+    while (currentTime < endTime) {
+       
+            //const row = document.createElement("tr");
+            const cell = document.createElement("td");
+            cell.textContent = currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            row.appendChild(cell);
+        
+
+        // Increment by 15 minutes for q 15 Min X2 h
+        currentTime = new Date(currentTime.getTime() + 15 * 60 * 1000);
+		iCounter++;
+    }
+	tbody.appendChild(row);
+
+    //row2 is VS row for q 15 Min X2 h 
+    const row2 = document.createElement("tr");
+    //tbody.appendChild(row2);
+    var i = 0;
+        while (i < iCounter+1) {
+            if(i == 0){
+                const cell2 = document.createElement("td");
+                cell2.textContent = "VS";
+                row2.appendChild(cell2);
+            }else{
+                const cell2 = document.createElement("td");
+                cell2.textContent = "";
+                row2.appendChild(cell2);
+            }        
+            i++;
+        }
+    tbody.appendChild(row2);
+
+    //row3 is VS row for q 15 Min X2 h  (NIHSS)
+    i = 0;
+    const row3 = document.createElement("tr");
+    //tbody.appendChild(row3);
+        while (i < iCounter+1) {
+            if(i == 0){
+                const cell3= document.createElement("td");
+                cell3.textContent = "NIHSS";
+                row3.appendChild(cell3);
+            }else{
+                const cell3 = document.createElement("td");
+                cell3.textContent = "";
+                row3.appendChild(cell3);
+                
+            }        
+            i++;
+        }
+    tbody.appendChild(row3);
+
+    //row4 is Pulse (ICU Only) row for q 15 Min X2 h  (NIHSS)
+    i = 0;
+    const row4 = document.createElement("tr");
+        while (i < iCounter+1) {
+            if(i == 0){
+                const cell4= document.createElement("td");
+                cell4.textContent = "Pulse (ICU Only) ";
+                row4.appendChild(cell4);
+            }else{
+                const cell4 = document.createElement("td");
+                cell4.textContent = "";
+                row4.appendChild(cell4);
+                
+            }        
+            i++;
+        }
+    tbody.appendChild(row4);
+
+    
+    //row5 is Pulse (ICU Only) row for q 15 Min X2 h  (NIHSS)
+    i = 0;
+    const row5 = document.createElement("tr");
+        while (i < iCounter+1) {
+            if(i == 0){
+                const cell5= document.createElement("td");
+                cell5.textContent = "Site Check (ICU Only) ";
+                row5.appendChild(cell5);
+            }else{
+                const cell5 = document.createElement("td");
+                cell5.textContent = "";
+                row5.appendChild(cell5);
+                
+            }        
+            i++;
+        }
+    tbody.appendChild(row5);
+
+
+    table.appendChild(tbody);
+    tableContainer1.appendChild(table);
+    generateTable2();
+}
+</script>
+<!--// #End Table 1 //-->
+
+
+<!--// #BeginTable 2: q 30 Min X6 h  //-->
+<div id="tableContainer2"></div>
+
+<script>
+function generateTable2() {
+    const startTime = document.getElementById("startTime").value;
+    if (!startTime) {
+        alert("Please enter a start time.");
+        return;
+    }
+
+    const tableContainer2 = document.getElementById("tableContainer2");
+    tableContainer2.innerHTML = ""; // Clear previous table
+
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
+
+    // Create header row for q 30 Min X6 h (Contains 4 child rows for VS, NIHSS, Pulse (ICU Only), Site Check (IUC Only))
+    const headerRow = document.createElement("tr");
+    const timeHeader = document.createElement("th");
+    timeHeader.textContent = "q 30 Min X6 h";
+    //headerRow.appendChild(timeHeader);
+    thead.appendChild(headerRow);
+
+    table.appendChild(thead);
+
+    let currentTime = new Date();
+    currentTime.setHours(parseInt(startTime.split(":")[0]), parseInt(startTime.split(":")[1]), 0);
+
+	let iCounter = 0;
+
+    // Assuming an 6-hour duration
+    const endTime = new Date(currentTime.getTime() + 6.25 * 60 * 60 * 1000);
+	const row = document.createElement("tr");
+    const vsColumnHeaderCell = document.createElement("td");
+    vsColumnHeaderCell.textContent = "q 30 Min X6 h";
+    row.appendChild(vsColumnHeaderCell);
     while (currentTime < endTime) {
         //const row = document.createElement("tr");
         const cell = document.createElement("td");
@@ -58,30 +254,241 @@ function generateTable() {
         row.appendChild(cell);
         
 
-        // Increment by 15 minutes
-        currentTime = new Date(currentTime.getTime() + 15 * 60 * 1000);
+        // Increment by 30 minutes for q 30 Min X6 h
+        currentTime = new Date(currentTime.getTime() + 30 * 60 * 1000);
 		iCounter++;
     }
 	tbody.appendChild(row);
 
-//Add comment or checkbox row
-const row2 = document.createElement("tr");
-tbody.appendChild(row2);
-let i = 0;
-    while (i < iCounter) {
-        const cell2 = document.createElement("td");
-        cell2.textContent = "test";
-        row2.appendChild(cell2);
-        
-		i++;
-    }
-tbody.appendChild(row2);
+    //row2 is VS row for q 30 Min X6 h
+    const row2 = document.createElement("tr");
+    //tbody.appendChild(row2);
+    var i = 0;
+        while (i < iCounter+1) {
+            if(i == 0){
+                const cell2 = document.createElement("td");
+                cell2.textContent = "VS";
+                row2.appendChild(cell2);
+            }else{
+                const cell2 = document.createElement("td");
+                cell2.textContent = "";
+                row2.appendChild(cell2);
+            }        
+            i++;
+        }
+    tbody.appendChild(row2);
+
+    //row3 is VS row for q 15 Min X2 h  (NIHSS)
+    i = 0;
+    const row3 = document.createElement("tr");
+    //tbody.appendChild(row3);
+        while (i < iCounter+1) {
+            if(i == 0){
+                const cell3= document.createElement("td");
+                cell3.textContent = "NIHSS";
+                row3.appendChild(cell3);
+            }else{
+                const cell3 = document.createElement("td");
+                cell3.textContent = "";
+                row3.appendChild(cell3);
+                
+            }        
+            i++;
+        }
+    tbody.appendChild(row3);
+
+    //row4 is Pulse (ICU Only) row for q 15 Min X2 h  (NIHSS)
+    i = 0;
+    const row4 = document.createElement("tr");
+        while (i < iCounter+1) {
+            if(i == 0){
+                const cell4= document.createElement("td");
+                cell4.textContent = "Pulse (ICU Only) ";
+                row4.appendChild(cell4);
+            }else{
+                const cell4 = document.createElement("td");
+                cell4.textContent = "";
+                row4.appendChild(cell4);
+                
+            }        
+            i++;
+        }
+    tbody.appendChild(row4);
+
+    
+    //row5 is Pulse (ICU Only) row for q 15 Min X2 h  (NIHSS)
+    i = 0;
+    const row5 = document.createElement("tr");
+        while (i < iCounter+1) {
+            if(i == 0){
+                const cell5= document.createElement("td");
+                cell5.textContent = "Site Check (ICU Only) ";
+                row5.appendChild(cell5);
+            }else{
+                const cell5 = document.createElement("td");
+                cell5.textContent = "";
+                row5.appendChild(cell5);
+                
+            }        
+            i++;
+        }
+    tbody.appendChild(row5);
+
 
     table.appendChild(tbody);
-    tableContainer.appendChild(table);
+    tableContainer2.appendChild(table);
+    generateTable3();
 }
 </script>
+<!--// #End Table 2 //-->
+
+
+<!--// #BeginTable 3: q 1 hr X16 h  //-->
+<div id="tableContainer3"></div>
+
+<script>
+function generateTable3() {
+    const startTime = document.getElementById("startTime").value;
+    if (!startTime) {
+        alert("Please enter a start time.");
+        return;
+    }
+
+    const tableContainer3 = document.getElementById("tableContainer3");
+    tableContainer3.innerHTML = ""; // Clear previous table
+
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
+
+    // Create header row for q 1 hr X16 h  (Contains 4 child rows for VS, NIHSS, Pulse (ICU Only), Site Check (IUC Only))
+    const headerRow = document.createElement("tr");
+    const timeHeader = document.createElement("th");
+    timeHeader.textContent = "q 1 hr X16 h ";
+    headerRow.appendChild(timeHeader);
+    //thead.appendChild(headerRow);
+
+    table.appendChild(thead);
+
+    let currentTime = new Date();
+    currentTime.setHours(parseInt(startTime.split(":")[0]), parseInt(startTime.split(":")[1]), 0);
+
+	let iCounter = 0;
+
+    // Assuming an 16-hour duration
+    const endTime = new Date(currentTime.getTime() + 16.25 * 60 * 60 * 1000);
+	const row = document.createElement("tr");
+    const vsColumnHeaderCell = document.createElement("td");
+    vsColumnHeaderCell.textContent = "q 1 hr X16 h";
+    row.appendChild(vsColumnHeaderCell);
+    while (currentTime < endTime) {
+        //const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.textContent = currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        row.appendChild(cell);
+        
+
+        // Increment by 60 minutes for q 1 hr Min X16 h
+        currentTime = new Date(currentTime.getTime() + 60 * 60 * 1000);
+		iCounter++;
+    }
+	tbody.appendChild(row);
+
+    //row2 is VS row for q 30 Min X6 h
+    const row2 = document.createElement("tr");
+    //tbody.appendChild(row2);
+    var i = 0;
+        while (i < iCounter+1) {
+            if(i == 0){
+                const cell2 = document.createElement("td");
+                cell2.textContent = "VS";
+                row2.appendChild(cell2);
+            }else{
+                const cell2 = document.createElement("td");
+                cell2.textContent = "";
+                row2.appendChild(cell2);
+            }        
+            i++;
+        }
+    tbody.appendChild(row2);
+
+    //row3 is VS row for q 15 Min X2 h  (NIHSS)
+    i = 0;
+    const row3 = document.createElement("tr");
+    //tbody.appendChild(row3);
+        while (i < iCounter+1) {
+            if(i == 0){
+                const cell3= document.createElement("td");
+                cell3.textContent = "NIHSS";
+                row3.appendChild(cell3);
+            }else{
+                const cell3 = document.createElement("td");
+                cell3.textContent = "";
+                row3.appendChild(cell3);
+                
+            }        
+            i++;
+        }
+    tbody.appendChild(row3);
+
+    //row4 is Pulse (ICU Only) row for q 15 Min X2 h  (NIHSS)
+    i = 0;
+    const row4 = document.createElement("tr");
+        while (i < iCounter+1) {
+            if(i == 0){
+                const cell4= document.createElement("td");
+                cell4.textContent = "Pulse (ICU Only) ";
+                row4.appendChild(cell4);
+            }else{
+                const cell4 = document.createElement("td");
+                cell4.textContent = "";
+                row4.appendChild(cell4);
+                
+            }        
+            i++;
+        }
+    tbody.appendChild(row4);
+
+    
+    //row5 is Pulse (ICU Only) row for q 15 Min X2 h  (NIHSS)
+    i = 0;
+    const row5 = document.createElement("tr");
+        while (i < iCounter+1) {
+            if(i == 0){
+                const cell5= document.createElement("td");
+                cell5.textContent = "Site Check (ICU Only) ";
+                row5.appendChild(cell5);
+            }else{
+                const cell5 = document.createElement("td");
+                cell5.textContent = "";
+                row5.appendChild(cell5);
+                
+            }        
+            i++;
+        }
+    tbody.appendChild(row5);
+
+
+    table.appendChild(tbody);
+    tableContainer2.appendChild(table);
+    document.getElementById("instructions").style.display = "block";
+}
+</script>
+<!--// #End Table 3 //-->
+
+    
+    <table id="instructions" style="display: none;">
+    <tr><td><input name='blank1' type='checkbox'></td>
+    <td>Sample Text goes here</td></tr>
+    <tr><td><input name='blank2' type='checkbox'></td>
+    <td>Sample Text goes here</td></tr>
+    <tr><td><input name='blank3' type='checkbox'></td>
+    <td>Sample Text goes here</td></tr>
+    <tr><td><input name='blank4' type='checkbox'></td>
+    <td>Sample Text goes here</td></tr>
+    <tr><td><input name='blank5' type='checkbox'></td>
+    <td>Sample Text goes here</td></tr>
+    </table></body>
 
 </body>
 </html>
-
