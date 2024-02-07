@@ -38,6 +38,28 @@
         h2{
             font-size:1.1em;
         }
+        .button {
+            padding: 5px 10px;
+            font-size: 1.0em;
+            text-align: center;
+            cursor: pointer;
+            outline: none;
+            color: #fff;
+            background-color: rgb(0, 171, 169); 
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 6px rgb(194, 192, 192);
+        }
+
+        .button:hover {
+            background-color: rgb(0, 171, 190); 
+            }
+
+        .button:active {
+        background-color: rgb(50, 171, 250);
+        box-shadow: 0 4px rgb(179, 177, 177);
+        transform: translateY(4px);
+        }
 
     </style>
 </head>
@@ -49,26 +71,26 @@
 <body>
     <!--// #Begin Header //-->
     <div style="position: absolute;top:10px;left:80%;">
-        {Logo}
+        {Logo Here}
     </div>
     <div id="header">
         <h1>
-            Timee Intervals
+            {Title Here}
         </h1>
         <div style="margin-bottom:10px;font-size:0.8em;">
-            {Text Here}
+            {Instructions Here}
         </div>
     </div>
 
     <div>
-        <button style="margin-right:550px;margin-bottom:15px;" onclick="generateTable()">Calculate Time</button>
-        <button onclick="printCurrentPage()">Print this Page</button>
+        <button class="button" style="margin-right:550px;margin-bottom:15px;" onclick="generateTable()">Calculate Time</button>
+        <button  class="button" onclick="printCurrentPage()">Print this Page</button>
     </div>
 
 <div style="margin-bottom:10px;">
     Enter start time (HH:MM): <input style="width:115px;padding-right:15px;" type="time" id="startTime">
-    Leaving ED <input style="margin-right:15px;" type="text" id="Leaving_ED">
-    ICU Arrival <input type="text" id="ICU_Arrival">
+    Comment 1 <input style="margin-right:15px;" type="text" id="comment1">
+    Comment 2 <input type="text" id="comment2">
 </div>
 <!--// #End Header //-->
 
@@ -479,15 +501,15 @@ function generateTable3() {
     
     <table id="instructions" style="display: none;">
     <tr><td><input name='blank1' type='checkbox'></td>
-    <td>Sample Text goes here</td></tr>
+    <td>Sample Text here</td></tr>
     <tr><td><input name='blank2' type='checkbox'></td>
-    <td>Sample Text goes here</td></tr>
+    <td>Sample Text here</td></tr>
     <tr><td><input name='blank3' type='checkbox'></td>
-    <td>Sample Text goes here</td></tr>
+    <td>Sample Text here</td></tr>
     <tr><td><input name='blank4' type='checkbox'></td>
-    <td>Sample Text goes here</td></tr>
+    <td>Sample Text here</td></tr>
     <tr><td><input name='blank5' type='checkbox'></td>
-    <td>Sample Text goes here</td></tr>
+    <td>Sample Text here</td></tr>
     </table></body>
 
 </body>
